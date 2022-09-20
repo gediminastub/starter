@@ -3,6 +3,27 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"]
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "google"
+  ],
+  "rules": {
+    "camelcase": "off",
+    "react/react-in-jsx-scope": "off",
+    "new-cap": "off",
+    "react/prop-types": "off",
+    "valid-jsdoc": 0,
+    "max-len": [
+      "error",
+      {
+        "code": 100,
+        "ignoreComments": true
+      }
+    ]
+  }
 }
