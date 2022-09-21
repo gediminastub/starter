@@ -1,27 +1,17 @@
-import {render, screen} from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import {Button} from './Button';
 
 describe('Test', () => {
-  // it('renders a heading', async () => {
-  //   const ctx = await createContextInner({session: null});
-  //   const caller = appRouter.createCaller(ctx);
-  //   render(<Home/>);
-  //
-  //   const heading = screen.getByRole('heading', {
-  //     name: /Create T3 App/i,
-  //   });
-  //
-  //   expect(heading).toBeInTheDocument();
-  // });
-
   it('renders a button', () => {
-    render(<Button>test</Button>);
+    let i = 0;
 
-    const heading = screen.getByRole('button', {
-      name: /test/i,
-    });
+    render(<Button onClick={() => i++}>test</Button>);
 
-    expect(heading).toBeInTheDocument();
+    const button = screen.getByRole('button', {name: 'test'});
+    expect(button).toBeInTheDocument();
+
+    fireEvent.click(button);
+    expect(i).toBe(1);
   });
 });
