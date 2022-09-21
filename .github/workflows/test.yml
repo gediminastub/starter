@@ -3,9 +3,29 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+      NEXTAUTH_SECRET: test
+      NEXTAUTH_URL: localhost:3000
+      EMAIL_SERVER: localhost:3000
+      EMAIL_FROM: test@test.com
+      FACEBOOK_ID: random
+      FACEBOOK_SECRET: random
     steps:
-    - uses: actions/checkout@v2
-    - name: Install modules
-      run: yarn
-    - name: Run tests
-      run: yarn test
+      - uses: actions/checkout@v2
+      - name: Install modules
+        run: yarn
+      - name: Run tests
+        run: yarn test
