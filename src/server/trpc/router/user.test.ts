@@ -7,8 +7,7 @@ describe('rpc example test', () => {
     const ctx = await createContextInner({session: null});
     const caller = appRouter.createCaller(ctx);
 
-    const test = await caller.user.getUsers();
-    expect(test).not.toBeNull();
-    expect(test.length > 0).toBe(true);
+    const test = await caller.user.hello({text: 'test'});
+    expect(test.greeting).toBe('Hello test');
   });
 });
