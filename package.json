@@ -11,7 +11,8 @@
     "test": "jest",
     "test:e2e": "playwright test",
     "dbMigrate": "prisma migrate dev",
-    "dbDeploy": "prisma migrate deploy"
+    "dbDeploy": "prisma migrate deploy",
+    "local-ssl": "local-ssl-proxy --source 3001 --target 3000"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.4",

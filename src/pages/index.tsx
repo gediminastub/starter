@@ -4,15 +4,14 @@ import type {
 } from 'next';
 import Head from 'next/head';
 import {signIn, signOut, useSession} from 'next-auth/react';
-import {trpc} from '../utils/trpc';
 import superjson from 'superjson';
 import {appRouter} from '../server/trpc/router';
 import {createProxySSGHelpers} from '@trpc/react/ssg';
-import {createContextInner} from '../server/trpc/context';
+import {createContext} from '../server/trpc/runtimeContext';
 
 const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const hello = data.hello;
-  console.log('ID', data.id);
+  const secretMessage = data.secretMessage;
 
   return (
     <>
@@ -31,7 +30,7 @@ const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
         <div
           className="grid gap-3 pt-3 mt-3 text-center md:grid-cols-3 lg:w-2/3">
           <TechnologyCard
-            name="NextJS"
+            name="NextJSas"
             description="The React framework for production"
             documentation="https://nextjs.org/"
           />
@@ -66,7 +65,7 @@ const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
           className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
           {hello ? <p>{hello.greeting}</p> : <p>Loading..</p>}
         </div>
-        <AuthShowcase/>
+        <AuthShowcase secretMessage={secretMessage}/>
       </main>
     </>
   );
@@ -82,25 +81,39 @@ export async function getServerSideProps(
 ) {
   const ssg = createProxySSGHelpers({
     router: appRouter,
-    ctx: await createContextInner({session: null}),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    ctx: await createContext({req: context.req, res: context.res}),
     transformer: superjson,
   });
 
   const id = context.query?.id || null;
-  const hello = await ssg.example.hello.fetch({text: 'from tRPC ssr'});
+  const hello = await ssg.user.hello.fetch({text: 'from tRPC ssr'});
+  let secretMessage = null;
+  try {
+    secretMessage = await ssg.auth.getSecretMessage.fetch();
+  } catch (e) {
+
+  }
+
+  console.log('hello', hello);
+  console.log('MSG', secretMessage);
 
   return {
     props: {
       trpcState: ssg.dehydrate(),
       hello,
       id,
+      secretMessage,
     },
   };
 }
 
-const AuthShowcase: React.FC = () => {
-  const {data: secretMessage} = trpc.auth.getSecretMessage.useQuery();
+interface AuthShowcaseProps {
+  secretMessage: string | null;
+}
 
+const AuthShowcase = ({secretMessage}: AuthShowcaseProps) => {
   const {data: sessionData} = useSession();
 
   return (
