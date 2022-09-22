@@ -17,7 +17,7 @@ If you are not familiar with the different technologies used in this project, pl
 - [Next-Auth.js](https://next-auth.js.org)
 - [Prisma](https://prisma.io)
 - [TailwindCSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io) (using @next version? [see v10 docs here](https://alpha.trpc.io))
+- [tRPC](https://trpc.io) (using @next version? [see v10 docs here](https://trpc.io/docs/v10/))
 
 Also checkout these awesome tutorials on `create-t3-app`.
 
@@ -45,7 +45,7 @@ You can also dockerize this stack and deploy a container.
 
 Please note that Next.js requires a different process for buildtime (available in the frontend, prefixed by `NEXT_PUBLIC`) and runtime environment, server-side only, variables. In this demo we are using two variables, `DATABASE_URL` (used by the server) and `NEXT_PUBLIC_CLIENTVAR` (used by the client). Pay attention to their positions in the `Dockerfile`, command-line arguments, and `docker-compose.yml`.
 
-1. In your [next.config.mjs](next.config.mjs), add the `standalone` output-option to your config:
+1. In your [next.config.mjs](./next.config.mjs), add the `standalone` output-option to your config:
 
    ```diff
      export default defineNextConfig({
@@ -55,7 +55,7 @@ Please note that Next.js requires a different process for buildtime (available i
      });
    ```
 
-2. Remove the `env`-import from [next.config.mjs](next.config.mjs):
+2. Remove the `env`-import from [next.config.mjs](./next.config.mjs):
 
    ```diff
    - import { env } from "./src/env/server.mjs";
@@ -119,7 +119,7 @@ Please note that Next.js requires a different process for buildtime (available i
 
    WORKDIR /app
    COPY --from=deps /app/node_modules ./node_modules
-   COPY my-t3-app .
+   COPY . .
 
    # Next.js collects completely anonymous telemetry data about general usage.
    # Learn more here: https://nextjs.org/telemetry

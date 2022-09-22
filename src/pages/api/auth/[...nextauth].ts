@@ -23,11 +23,11 @@ export const authOptions: NextAuthOptions = {
     FacebookProvider({
       clientId: env.FACEBOOK_ID,
       clientSecret: env.FACEBOOK_SECRET,
-    }),
+    },
+    ),
     EmailProvider({
       server: env.EMAIL_SERVER,
       from: env.EMAIL_FROM,
-      // maxAge: 24 * 60 * 60, // How long email links are valid for (default 24h)
     }),
     // ...add more providers here
   ],
