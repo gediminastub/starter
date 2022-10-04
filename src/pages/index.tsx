@@ -8,12 +8,14 @@ import superjson from 'superjson';
 import {appRouter} from '../server/trpc/router';
 import {createProxySSGHelpers} from '@trpc/react/ssg';
 import {createContext} from '../server/trpc/runtimeContext';
-import Spline from '@splinetool/react-spline';
+import {useBearStore} from '../store/bearStore';
 
 const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const hello = data.hello;
-  const oneUser = data.oneUser;
   const secretMessage = data.secretMessage;
+
+  const bearStore = useBearStore();
+  const bears = bearStore.bears;
 
   return (
     <>
@@ -24,15 +26,11 @@ const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
       </Head>
       <main
         className="container flex flex-col items-center justify-center min-h-screen p-4
-        mx-auto z-50">
-        <div>
-          <Spline
-            className="absolute right-0 z-0"
-            style={{'transform': 'scale(1) translate(-120px, 50px)'}}
-            scene="https://draft.spline.design/T54SX5ZcpZHq-Ysd/scene.splinecode"/>
-
-        </div>
-        <div>TESTAS {oneUser?.email}</div>
+        mx-auto text-white z-50">
+        <div>Bears count: {bears}</div>
+        <button onClick={() => bearStore.increase(1)}
+          className="border-2 border-r-2 p-4">Add bear
+        </button>
         <div className="container flex flex-col items-center justify-center min-h-screen p-4
         mx-auto z-50">
           <h1
