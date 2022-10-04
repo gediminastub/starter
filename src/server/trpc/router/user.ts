@@ -13,4 +13,9 @@ export const exampleRouter = t.router({
       .query(({ctx}) => {
         return ctx.prisma.user.findMany();
       }),
+  getUser: t.procedure
+      .input(z.object({email: z.string()}))
+      .query(({input, ctx}) => {
+        return ctx.prisma.user.findFirst({where: {email: {equals: input.email}}});
+      }),
 });

@@ -8,9 +8,11 @@ import superjson from 'superjson';
 import {appRouter} from '../server/trpc/router';
 import {createProxySSGHelpers} from '@trpc/react/ssg';
 import {createContext} from '../server/trpc/runtimeContext';
+import Spline from '@splinetool/react-spline';
 
 const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const hello = data.hello;
+  const oneUser = data.oneUser;
   const secretMessage = data.secretMessage;
 
   return (
@@ -21,51 +23,63 @@ const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
         <link rel="icon" href="/favicon.ico"/>
       </Head>
       <main
-        className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
-        <h1
-          className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
-          Create <span className="text-purple-300">T3</span> App
-        </h1>
-        <p className="text-2xl text-gray-700">This stack uses:</p>
-        <div
-          className="grid gap-3 pt-3 mt-3 text-center md:grid-cols-3 lg:w-2/3">
-          <TechnologyCard
-            name="NextJSas"
-            description="The React framework for production"
-            documentation="https://nextjs.org/"
-          />
-          <TechnologyCard
-            name="TypeScript"
-            description="Strongly typed programming language that builds on
+        className="container flex flex-col items-center justify-center min-h-screen p-4
+        mx-auto z-50">
+        <div>
+          <Spline
+            className="absolute right-0 z-0"
+            style={{'transform': 'scale(1) translate(-120px, 50px)'}}
+            scene="https://draft.spline.design/T54SX5ZcpZHq-Ysd/scene.splinecode"/>
+
+        </div>
+        <div>TESTAS {oneUser?.email}</div>
+        <div className="container flex flex-col items-center justify-center min-h-screen p-4
+        mx-auto z-50">
+          <h1
+            className="text-5xl md:text-[5rem] leading-normal font-extrabold text-white">
+            Create <span className="text-purple-300">T3</span> App
+          </h1>
+          <p className="text-2xl text-white">This stack uses:</p>
+          <div
+            className="grid gap-3 pt-3 mt-3 text-center md:grid-cols-3 lg:w-2/3">
+            <TechnologyCard
+              name="NextJSas"
+              description="The React framework for production"
+              documentation="https://nextjs.org/"
+            />
+            <TechnologyCard
+              name="TypeScript"
+              description="Strongly typed programming language that builds on
             JavaScript, giving you better tooling at any scale"
-            documentation="https://www.typescriptlang.org/"
-          />
-          <TechnologyCard
-            name="TailwindCSS"
-            description="Rapidly build modern websites without ever leaving your HTML"
-            documentation="https://tailwindcss.com/"
-          />
-          <TechnologyCard
-            name="tRPC"
-            description="End-to-end typesafe APIs made easy"
-            documentation="https://trpc.io/"
-          />
-          <TechnologyCard
-            name="Next-Auth"
-            description="Authentication for Next.js"
-            documentation="https://next-auth.js.org/"
-          />
-          <TechnologyCard
-            name="Prisma"
-            description="Build data-driven JavaScript & TypeScript apps in less time"
-            documentation="https://www.prisma.io/docs/"
-          />
+              documentation="https://www.typescriptlang.org/"
+            />
+            <TechnologyCard
+              name="TailwindCSS"
+              description="Rapidly build modern websites without ever leaving your HTML"
+              documentation="https://tailwindcss.com/"
+            />
+            <TechnologyCard
+              name="tRPC"
+              description="End-to-end typesafe APIs made easy"
+              documentation="https://trpc.io/"
+            />
+            <TechnologyCard
+              name="Next-Auth"
+              description="Authentication for Next.js"
+              documentation="https://next-auth.js.org/"
+            />
+            <TechnologyCard
+              name="Prisma"
+              description="Build data-driven JavaScript & TypeScript apps in less time"
+              documentation="https://www.prisma.io/docs/"
+            />
+          </div>
+          <div
+            className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
+            {hello ? <p>{hello.greeting}</p> : <p>Loading..</p>}
+          </div>
+          <AuthShowcase secretMessage={secretMessage}/>
         </div>
-        <div
-          className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
-          {hello ? <p>{hello.greeting}</p> : <p>Loading..</p>}
-        </div>
-        <AuthShowcase secretMessage={secretMessage}/>
       </main>
     </>
   );
@@ -89,6 +103,7 @@ export async function getServerSideProps(
 
   const id = context.query?.id || null;
   const hello = await ssg.user.hello.fetch({text: 'from tRPC ssr'});
+  const oneUser = await ssg.user.getUser.fetch({email: 'gtubelevicius@gmail.com'});
   let secretMessage = null;
   try {
     secretMessage = await ssg.auth.getSecretMessage.fetch();
@@ -105,6 +120,7 @@ export async function getServerSideProps(
       hello,
       id,
       secretMessage,
+      oneUser,
     },
   };
 }
@@ -152,8 +168,8 @@ const TechnologyCard = ({
     <section
       className="flex flex-col justify-center p-6 duration-500 border-2
        border-gray-500 rounded shadow-xl motion-safe:hover:scale-105">
-      <h2 className="text-lg text-gray-700">{name}</h2>
-      <p className="text-sm text-gray-600">{description}</p>
+      <h2 className="text-lg text-coral-500">{name}</h2>
+      <p className="text-sm text-coral-200">{description}</p>
       <a
         className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
         href={documentation}
