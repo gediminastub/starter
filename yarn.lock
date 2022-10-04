@@ -414,6 +414,11 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource/outfit@^4.5.10":
+  version "4.5.10"
+  resolved "https://registry.yarnpkg.com/@fontsource/outfit/-/outfit-4.5.10.tgz#516a33189b5effe4fd3ead08fb871eebbe238580"
+  integrity sha512-wT8hmcueW5okOS8BQGARL0zdJOe032FctWr9df/0ixXpAiZ4WfnigRd3/ThhmmRwFgNxbjwqZ9bmO+5QDjaTbA==
+
 "@humanwhocodes/config-array@^0.10.4":
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.10.5.tgz#bb679745224745fff1e9a41961c1d45a49f81c04"
