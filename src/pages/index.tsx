@@ -9,6 +9,7 @@ import {appRouter} from '../server/trpc/router';
 import {createProxySSGHelpers} from '@trpc/react/ssg';
 import {createContext} from '../server/trpc/runtimeContext';
 import {useBearStore} from '../store/bearStore';
+import Spline from '@splinetool/react-spline';
 
 const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const hello = data.hello;
@@ -27,16 +28,29 @@ const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
       <main
         className="container flex flex-col items-center justify-center min-h-screen p-4
         mx-auto text-white z-50">
-        <div>Bears count: {bears}</div>
-        <button onClick={() => bearStore.increase(1)}
-          className="border-2 border-r-2 p-4">Add bear
-        </button>
+        <div className="flex flex-row gap-8 w-full overflow-hidden"
+          style={{minHeight: '100vh'}}>
+          <div className="flex flex-col justify-center w-1/2">
+            <h1
+              className="text-5xl md:text-[5rem] leading-normal font-extrabold text-white">
+              Create <span className="text-purple-300">T3</span> App
+            </h1>
+            <div>Bears count: {bears}</div>
+            <button onClick={() => bearStore.increase(1)}
+              className="border-2 border-r-2 p-4">Add bear
+            </button>
+          </div>
+          <div
+            className="w-1/2 overflow-hidden flex items-center justify-center">
+            <Spline scene="/mainScene4.spline"/>
+            {/* <video autoPlay loop muted */}
+            {/*   style={{width: '1500px', height: '500px'}}> */}
+            {/*   <source src="/calculatorFinal.mp4" type="video/mp4"/> */}
+            {/* </video> */}
+          </div>
+        </div>
         <div className="container flex flex-col items-center justify-center min-h-screen p-4
         mx-auto z-50">
-          <h1
-            className="text-5xl md:text-[5rem] leading-normal font-extrabold text-white">
-            Create <span className="text-purple-300">T3</span> App
-          </h1>
           <p className="text-2xl text-white">This stack uses:</p>
           <div
             className="grid gap-3 pt-3 mt-3 text-center md:grid-cols-3 lg:w-2/3">
