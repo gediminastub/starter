@@ -43,6 +43,7 @@ const Home = (data: InferGetServerSidePropsType<typeof getServerSideProps>) => {
           <div
             className="w-1/2 overflow-hidden flex items-center justify-center">
             <Spline scene="/mainScene4.spline"/>
+
             {/* <video autoPlay loop muted */}
             {/*   style={{width: '1500px', height: '500px'}}> */}
             {/*   <source src="/calculatorFinal.mp4" type="video/mp4"/> */}
